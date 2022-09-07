@@ -27,8 +27,24 @@
       </thead>
       <tbody>
         <tr v-for="(task, index) in tasks" :key="index">
-          <td>{{ task.name }}</td>
-          <td>{{ task.status }}</td>
+          <td>
+            <span :class="{ finished: task.status === 'finished' }">
+              {{ task.name }}
+            </span>
+          </td>
+          <td style="width: 150px">
+            <span
+              @click="changeStatus(index)"
+              class="pointer"
+              :class="{
+                'text-danger': task.status === 'to do',
+                'text-warning': task.status === 'in progress',
+                'text-success': task.status === 'finished',
+              }"
+            >
+              {{ task.status }}
+            </span>
+          </td>
           <td>
             <div @click="editTask(index)" class="d-flex justify-content-center">
               <span class="fa fa-pen"></span>
@@ -58,6 +74,7 @@ export default {
     return {
       task: "",
       editedTask: null,
+      statuses: ["to do", "in progress", "finished"],
 
       tasks: [
         {
@@ -97,9 +114,25 @@ export default {
       this.task = this.tasks[index].name;
       this.editedTask = index;
     },
+
+    changeStatus(index) {
+      let newIndex = this.statuses.indexOf(this.tasks[index].status);
+      if (++newIndex > 2) {
+        newIndex = 0;
+      }
+      this.tasks[index].status = this.statuses[newIndex];
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.pointer {
+  cursor: pointer;
+}
+
+.finished {
+  text-decoration: line-through;
+}
+</style>
