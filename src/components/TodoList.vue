@@ -38,7 +38,7 @@
               class="pointer"
               :class="{
                 'text-danger': task.status === 'to do',
-                'text-warning': task.status === 'in progress',
+                'text-warning': task.status === 'in process',
                 'text-success': task.status === 'finished',
               }"
             >
@@ -67,14 +67,11 @@
 <script>
 export default {
   name: "TodoList",
-  props: {
-    msg: String,
-  },
   data() {
     return {
       task: "",
       editedTask: null,
-      statuses: ["to do", "in progress", "finished"],
+      statuses: ["to do", "in process", "finished"],
 
       tasks: [
         {
